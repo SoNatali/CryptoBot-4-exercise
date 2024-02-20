@@ -64,17 +64,11 @@ public class MyBot extends TelegramLongPollingBot {
             sendPrice(chatId, "EOS");
             sendPrice(chatId, "DOGE");
 
-        } else if (text.matches("[a-zA-Z]+\\d+")) {
-                // Извлекаем символьную часть и числовую часть из команды
+        } else if (text.matches("[a-zA-Z]+\\d+")) {    
             String currencySymbol = text.replaceAll("\\d", "");
             double amountInDollars = Double.parseDouble(text.replaceAll("[^\\d.]", ""));
-
-                // Рассчитываем количество криптовалюты, которую можно купить
             double cryptoAmount = calculateCryptoAmount(currencySymbol, amountInDollars);
-
-                // Отправляем результат пользователю
-            sendMessage(chatId, "For " + amountInDollars + " USD, you can buy approximately " +
-                        cryptoAmount + " " + currencySymbol + ".");
+            sendMessage(chatId, "For " + amountInDollars + " USD, you can buy approximately " + cryptoAmount + " " + currencySymbol + ".");
 
         } else {
             sendMessage(chatId, "Unknown command!");
@@ -107,9 +101,7 @@ public class MyBot extends TelegramLongPollingBot {
 
     double calculateCryptoAmount(String currencySymbol, double amountInDollars) throws Exception {
         var price = CryptoPrice.spotPrice(currencySymbol);
-
         double cryptoAmount = amountInDollars / price.getAmount().doubleValue();
-
         return cryptoAmount;
     }
 
